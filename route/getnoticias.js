@@ -5,7 +5,10 @@ module.exports = (app) => {
             const noticias = await app.DBClient.db('portalnoticias')
                 .collection('noticias').find().toArray();
             res.json(noticias)
-        } finally {
+        } catch (err) {
+            res.send(" erro" + err)
+        }
+        finally {
             // Ensures that the client will close when you finish/error
             await app.DBClient.close();
         }

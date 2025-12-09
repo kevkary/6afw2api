@@ -7,18 +7,15 @@ module.exports = (app) => {
             await app.DBClient.connect(); //aqui o erro
             const resultado = await app.DBClient.db('portalnoticias')
                 .collection('noticias')
-                .insertOne({
+                .insertOne({ 
                     titulonoticia: titulonoticia,
                     conteudonoticia: conteudonoticia,
                     tiponoticia: tiponoticia,
                     datahoracadastro: new Date()
                 })
-            if (!resultado.acknowledged) {
-                res.json({ status: 0 })
-            }
-            res.json({ status: 1 })
+            res.json({status:1})
         } catch (error) {
-            res.json({ status: 0 })
+            res.json({status:0})
         }
     })
 }

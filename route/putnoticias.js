@@ -13,12 +13,11 @@ module.exports = (app) => {
                     {
                         $set: { titulonoticia: titulonoticia, conteudonoticia: conteudonoticia, tiponoticia: tiponoticia }
                     })
-            console.log(resultado)
             if (!resultado.modifiedCount) {
-                throw new Error();
-            } else { res.status(200).json({ status: 1 }) }
+                throw new Error("A notícia não foi atualizada — id não encontrado.");
+            } else { res.status(200).send("Notícia Atualizada") }
         } catch (error) {
-            res.status(400).json({ status: 0 })
+            res.status(400).send("" + error)
         }
     })
 }

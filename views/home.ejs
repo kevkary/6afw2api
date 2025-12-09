@@ -1,78 +1,189 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Notícias - Página Inicial</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>API Notícias — Documentação Rápida</title>
+    <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 3.5rem;
+        }
+
+        pre.sample {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: .375rem;
+        }
+
+        .endpoint {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
-
-    <div class="container py-5">
-
-        <header class="text-center mb-5">
-            <h1 class="fw-bold">API de Notícias</h1>
-            <p class="text-muted">A API permite buscar, inserir, atualizar e excluir notícias armazenadas no MongoDB
-                Atlas.</p>
-        </header>
-
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Endpoints Disponíveis</h4>
-            </div>
-            <div class="card-body">
-
-                <!-- GETs -->
-                <h5 class="fw-bold mt-3">🔍 Buscar Notícias (GET)</h5>
-                <ul>
-                    <li><code>GET /noticias</code> — Retorna todas as notícias.</li>
-                    <li><code>GET /noticias/id/:id</code> — Retorna uma notícia específica pelo ID.</li>
-                    <li><code>GET /noticias/tiponoticia/:tipo</code> — Retorna notícias filtradas por tipo.</li>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">API Notícias</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#endpoints">Endpoints</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#bodies">JSON no corpo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#exemplos">Exemplos</a></li>
                 </ul>
-
-                <!-- POST -->
-                <h5 class="fw-bold mt-4">📝 Inserir Notícia (POST)</h5>
-                <p><code>POST /postnoticias</code></p>
-                <p>Enviar no corpo da requisição <strong>JSON</strong>:</p>
-
-                <pre>{
-  "titulo": "Título da notícia",
-  "conteudo": "Conteúdo da notícia",
-  "tipo": "categoria"
-}</pre>
-
-                <!-- PUT -->
-                <h5 class="fw-bold mt-4">✏ Atualizar Notícia (PUT)</h5>
-                <p><code>PUT /putnoticias</code></p>
-                <p>Enviar no corpo da requisição <strong>JSON</strong>:</p>
-
-                <pre>{
-  "_id": "ID da notícia",
-  "titulo": "Novo título",
-  "conteudo": "Novo conteúdo",
-  "tipo": "nova categoria"
-}</pre>
-
-                <!-- DELETE -->
-                <h5 class="fw-bold mt-4">🗑 Deletar Notícia (DELETE)</h5>
-                <p><code>DELETE /delnoticas</code></p>
-                <p>Enviar no corpo da requisição <strong>JSON</strong>:</p>
-
-                <pre>{
-  "_id": "ID da notícia"
-}</pre>
-
             </div>
         </div>
+    </nav>
 
-        <footer class="text-center text-muted mt-4">
-            <p>API desenvolvida com Node.js, Express e MongoDB Atlas.</p>
+    <main class="container">
+        <header class="mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="h3">API de Notícias</h1>
+                    <p class="text-muted">Esta API se integra a um banco MongoDB Atlas e fornece operações de buscar,
+                        inserir, apagar e atualizar notícias.</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <span class="badge bg-success">CRUD • MongoDB Atlas</span>
+                    <span class="badge bg-info">JSON body required: POST / PUT / DELETE</span>
+                </div>
+            </div>
+        </header>
+
+        <section id="endpoints" class="mb-4">
+            <h2 class="h5">Endpoints</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Rota</th>
+                            <th>Método</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="endpoint">app.get('/noticias')</td>
+                            <td>GET</td>
+                            <td>Retorna todas as notícias.</td>
+                        </tr>
+                        <tr>
+                            <td class="endpoint">app.get('/noticias/id/:id')</td>
+                            <td>GET</td>
+                            <td>Retorna a notícia com o <code>:id</code> informado.</td>
+                        </tr>
+                        <tr>
+                            <td class="endpoint">app.get('/noticias/tiponoticia/:tipo')</td>
+                            <td>GET</td>
+                            <td>Busca notícias pelo tipo (categoria) informado.</td>
+                        </tr>
+                        <tr>
+                            <td class="endpoint">app.post('/postnoticias')</td>
+                            <td>POST</td>
+                            <td>Insere uma nova notícia. JSON no corpo.</td>
+                        </tr>
+                        <tr>
+                            <td class="endpoint">app.delete('/delnoticas')</td>
+                            <td>DELETE</td>
+                            <td>Apaga notícia(s) segundo critérios enviados no corpo JSON. <small>(rota conforme
+                                    fornecida)</small></td>
+                        </tr>
+                        <tr>
+                            <td class="endpoint">app.put('/putnoticias')</td>
+                            <td>PUT</td>
+                            <td>Atualiza notícia(s) com dados enviados no corpo JSON.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="bodies" class="mb-4">
+            <h2 class="h5">Formato JSON esperado (corpo das requisições)</h2>
+            <p>Exemplos de payloads para <strong>POST</strong>, <strong>PUT</strong> e <strong>DELETE</strong>. Ajuste
+                os campos conforme o schema usado no servidor.</p>
+
+            <h3 class="h6 mt-3">POST — criar notícia</h3>
+            <pre class="sample"><code>{
+  "titulo": "Título da notícia",
+  "conteudo": "Texto completo ou resumo",
+  "tipo": "economia | esporte | tecnologia | outros",
+  "autor": "Nome do autor",
+  "data": "2025-11-28T10:00:00Z"
+}</code></pre>
+
+            <h3 class="h6 mt-3">PUT — atualizar notícia</h3>
+            <pre class="sample"><code>{
+  "id": "614c1b2f9f1a2a6b8b0e4c0d",
+  "patch": { "titulo": "Novo título", "conteudo": "Conteúdo atualizado" }
+}</code></pre>
+
+            <h3 class="h6 mt-3">DELETE — apagar notícia(s)</h3>
+            <pre class="sample"><code>{
+  "id": "614c1b2f9f1a2a6b8b0e4c0d"
+}
+
+/* ou apagar por filtro */
+{
+  "tipo": "obsoleta"
+}
+</code></pre>
+        </section>
+
+        <section id="exemplos" class="mb-5">
+            <h2 class="h5">Exemplos de uso (cURL)</h2>
+
+            <h3 class="h6 mt-3">Buscar todas as notícias</h3>
+            <pre class="sample"><code>curl -X GET "https://seu-dominio.com/noticias"
+</code></pre>
+
+            <h3 class="h6 mt-3">Buscar por ID</h3>
+            <pre class="sample"><code>curl -X GET "https://seu-dominio.com/noticias/id/614c1b2f9f1a2a6b8b0e4c0d"
+</code></pre>
+
+            <h3 class="h6 mt-3">Inserir (POST)</h3>
+            <pre class="sample"><code>curl -X POST "https://seu-dominio.com/postnoticias" \
+  -H "Content-Type: application/json" \
+  -d '{ "titulo":"Notícia teste", "conteudo":"...", "tipo":"tecnologia" }'
+</code></pre>
+
+            <h3 class="h6 mt-3">Atualizar (PUT)</h3>
+            <pre class="sample"><code>curl -X PUT "https://seu-dominio.com/putnoticias" \
+  -H "Content-Type: application/json" \
+  -d '{ "id":"614c...", "patch": { "titulo": "Atualizado" } }'
+</code></pre>
+
+            <h3 class="h6 mt-3">Apagar (DELETE)</h3>
+            <pre class="sample"><code>curl -X DELETE "https://seu-dominio.com/delnoticas" \
+  -H "Content-Type: application/json" \
+  -d '{ "id":"614c..." }'
+</code></pre>
+
+            <p class="text-muted small">Observação: adapte <code>https://seu-dominio.com</code> para o host onde a API
+                está publicada. Garanta que o servidor aceite CORS se for testar via front-end.</p>
+        </section>
+
+        <footer class="text-muted border-top pt-3 pb-4 mb-4">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <strong>Integração com MongoDB Atlas</strong>
+                    <div>Conectar usando <code>mongodb+srv://</code> e o driver oficial. Use variáveis de ambiente para
+                        credenciais.</div>
+                </div>
+                <div class="text-end">
+                    <small>Gerado: Página de documentação simples • ajuste conforme seu schema</small>
+                </div>
+            </div>
         </footer>
+    </main>
 
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

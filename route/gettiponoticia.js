@@ -1,12 +1,12 @@
-const { ObjectId } = require("mongodb");
-
 module.exports = (app) => {
-    app.get('/noticias/id/:id', async (req, res) => {
+    app.get('/noticias/tipo/:tiponoticia', async (req, res) => {
         try {
-            const _id = ObjectId.createFromHexString(req.params.id)
+            const tiponoticia = req.params.tiponoticia
             await app.DBClient.connect(); //realizar a conexão com o banco 
             const noticias = await app.DBClient.db('portalnoticias')
-            .collection('noticias').find({_id:_id}).toArray();
+            .collection('noticias').find(
+                {tiponoticias:new RegExp(tiponoticia,'i')}
+            ).toArray();
             res.json(noticias)
         } finally {
             // Ensures that the client will close when you finish/error
